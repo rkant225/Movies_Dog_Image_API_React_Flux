@@ -1,17 +1,17 @@
 import AppDispatcher from "./AppDispatcher";
 import Constants from "./Constants";
 class Actions {
-  searchMovies(movie: any) {
+  searchMovies(movie: any) {       
     AppDispatcher.dispatch({
       actionType: Constants.SEARCH_MOVIES,
-      movie: movie
+      data: movie
     });
   }
 
-  showMovieResults(movies: any) {
+  showMovieResults(movies: any) {    
     AppDispatcher.dispatch({
       actionType: Constants.SHOW_MOVIE_RESULTS,
-      movies: movies
+      data: movies
     });
   }
 }

@@ -14,11 +14,11 @@ class MoviesStore extends EventEmitter {
   registerActions(action) {
     switch (action.actionType) {
       case Constants.SEARCH_MOVIES:
-        API.searchMovies(action.movie);
+        API.searchMovies(action.data);
         this.emit(CHANGE_EVENT);
         break;
       case Constants.SHOW_MOVIE_RESULTS:
-        this.setMovieResults(action.movies);
+        this.setMovieResults(action.data);
         this.emit(CHANGE_EVENT);
         break;
     }

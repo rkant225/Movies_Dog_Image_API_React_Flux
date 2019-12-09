@@ -8,23 +8,16 @@ class SearchForm extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-    let movie = {
-      title: this.refs.title.value
-    };
+    let movie = this.refs.title.value;    
     Actions.searchMovies(movie);
   }
+
   render() {
     return (
-      <div className="search-form">
-        <h2 className="text-center">search for a movie</h2>
+      <div className="search-form">        
         <form onSubmit={this.onSubmit}>
           <div className="form-group">
-            <input
-              type="text"
-              className="form-control"
-              ref="title"
-              placeholder="search..."
-            />
+            <input type="text" className="form-control" ref="title" placeholder="search..." />
           </div>
           <button className="btn btn-primary">search</button>
         </form>

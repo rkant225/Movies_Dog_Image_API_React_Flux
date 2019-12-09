@@ -3,6 +3,7 @@ import ReactDom from "react-dom";
 import SearchForm from "./SearchForm";
 import MoviesResults from "./MoviesResults";
 import MoviesStore from "./AppStore";
+import SearchJokes from "./SearchJokes"
 const styles = {
   fontFamily: "sans-serif",
   textAlign: "center"
@@ -10,39 +11,44 @@ const styles = {
 
 class App extends Component {
   constructor(props) {
-    super(props);
-    this._onChange = this._onChange.bind(this);
-    this.getAppState = this.getAppState.bind(this);
-    this.state = this.getAppState();
+    super(props);           
+    this.state = { Obj : {dog_data : null, joke_data : null} }
+    
+    this.onAppStoreChange = this.onAppStoreChange.bind(this);
   }
-  getAppState() {
-    return {
-      movies: MoviesStore.getMovieResults()
-    };
-  }
+  
   componentDidMount() {
-    MoviesStore.addChangeListener(this._onChange);
+    MoviesStore.addChangeListener(this.onAppStoreChange);
   }
   componentWillUnmount() {
-    MoviesStore.removeChangeListener(this._onChange);
+    MoviesStore.removeChangeListener(this.onAppStoreChange);
   }
-  _onChange() {
-    this.setState(this.getAppState);
+
+  onAppStoreChange() {
+    var data = MoviesStore.getMovieResults();
+    this.setState({Obj : data});
   }
-  render() {
-    var movieResults = "";
-    if (this.state.movies === "") {
-      movieResults = "";
-    } else {
-      movieResults = <MoviesResults movies={this.state.movies} />;
-    }
+  render() {    
     return (
       <div style={styles}>
-        <h1>Movies</h1>
+        <h1>Search Random Dog</h1>
         <div className="container">
           <SearchForm />
+          <SearchJokes />
+        </div>          
+        {this.state.Obj && this.state.Obj.dog_data && <img alt={"Loading..."} src={this.state.Obj.dog_data.message} height={400} width={400}/>}
+
+        
+        <h2>Random Joke</h2>
+        {this.state.Obj && this.state.Obj.joke_data && 
+        <div>
+        <p><b>Category : </b>{this.state.Obj.joke_data.type}</p>
+        <p><b>Joke : </b>{this.state.Obj.joke_data.setup}</p>
+        <p><b>Punch Line : </b>{this.state.Obj.joke_data.punchline}</p>        
         </div>
-        <div className="container pull-down">{movieResults}</div>
+        }
+
+        
       </div>
     );
   }
